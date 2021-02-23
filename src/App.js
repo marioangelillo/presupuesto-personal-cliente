@@ -1,10 +1,13 @@
-import './App.css';
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Header from './components/Header';
+import Menu from './components/Menu';
 
 function App() {
   return (
-    <div>
-      Hola mundo
-    </div>
+    <>
+      <Menu />
+    </>
   );
 }
 
