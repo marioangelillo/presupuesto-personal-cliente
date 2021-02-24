@@ -1,4 +1,12 @@
+*{
+    overflow-x: hidden
+}
+
 .imagen_usuario{
     height: 200px;
     width: 200px;
+}
+
+.titles{
+    font-size: 40px;
 }

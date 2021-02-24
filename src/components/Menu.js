@@ -1,6 +1,10 @@
 import React from 'react';
 import {Tab, Row, Nav, Col, Image} from  'react-bootstrap';
 import '../App.css'
+import Categories from './Categories';
+import Inputs from './Inputs';
+import LastMovements from './LastMovements';
+import Outputs from './Outputs';
 
 export default function Menu() {
     return (
@@ -9,7 +13,7 @@ export default function Menu() {
                 <Col sm={3}>
                 <Nav variant="pills" className="flex-column align-items-center">
                     <Image className="imagen_usuario mb-2" src="https://picsum.photos/id/237/200/300" roundedCircle />
-                    <h3>Mario Angelillo</h3>
+                    Mario Angelillo
                     <hr className="w-75" />
                     <Nav.Item className="w-100 text-center my-1">
                     <Nav.Link eventKey="1">Ultimos movimientos</Nav.Link>
@@ -28,16 +32,16 @@ export default function Menu() {
                 <Col sm={9}>
                 <Tab.Content>
                     <Tab.Pane eventKey="1">
-                    hola
+                        <LastMovements />
                     </Tab.Pane>
                     <Tab.Pane eventKey="2">
-                    hola2
+                        <Inputs />
                     </Tab.Pane>
                     <Tab.Pane eventKey="3">
-                    hola3
+                        <Outputs />
                     </Tab.Pane>
                     <Tab.Pane eventKey="4">
-                    hola4
+                     <Categories />
                     </Tab.Pane>
                 </Tab.Content>
                 </Col>
