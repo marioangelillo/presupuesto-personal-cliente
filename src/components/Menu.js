@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Tab, Row, Nav, Col, Image} from  'react-bootstrap';
-import '../App.css'
-import Categories from './Categories';
-import Inputs from './Inputs';
+import '../App.css';
+import Abm from './Abm';
 import LastMovements from './LastMovements';
-import Outputs from './Outputs';
 
 export default function Menu() {
+
+    const [operationsList, setOperationList] = useState([]);
+
     return (
         <Tab.Container id="left-tabs-example" defaultActiveKey="1">
             <Row className="mt-2">
@@ -19,13 +20,7 @@ export default function Menu() {
                     <Nav.Link eventKey="1">Ultimos movimientos</Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="w-100 text-center my-1">
-                    <Nav.Link eventKey="2">Ingresos</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item className="w-100 text-center my-1">
-                    <Nav.Link eventKey="3">Egresos</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item className="w-100 text-center my-1">
-                    <Nav.Link eventKey="4">Agregar categoría</Nav.Link>
+                    <Nav.Link eventKey="2">ABM Operaciones</Nav.Link>
                     </Nav.Item>
                 </Nav>
                 </Col>
@@ -35,14 +30,8 @@ export default function Menu() {
                         <LastMovements />
                     </Tab.Pane>
                     <Tab.Pane eventKey="2">
-                        <Inputs />
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="3">
-                        <Outputs />
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="4">
-                     <Categories />
-                    </Tab.Pane>
+                        <Abm operationsList={operationsList} setOperationList={setOperationList}/>
+                    </Tab.Pane> 
                 </Tab.Content>
                 </Col>
             </Row>
