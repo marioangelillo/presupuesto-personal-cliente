@@ -6,8 +6,8 @@ export default function FormSubmit({operationsList, setOperationList}) {
     const [form, setForm] = useState({
         concept: '',
         amount: '',
-        date: '',
-        type: ''
+        dateOperation: '',
+        operation: ''
     })
 
     const handleChange = e =>{
@@ -17,41 +17,45 @@ export default function FormSubmit({operationsList, setOperationList}) {
         })
     }
 
-    const handleSubmit = e =>{
+    const handleSubmit = async e =>{
         e.preventDefault();
-        console.log(form);
         if(form.concept === '' || form.amount === '' || form.date === '' || form.type === ''){
             alert('Deben completarse todos los campos');
             return;
-        }
+        }        
 
-        setOperationList([
-            ...operationsList,
-            form
-        ])
-
-        /*const solicitud = await fetch('http://localhost:4000/api/find',{   
+        const request = await fetch('http://localhost:4000/api/insert',{   
         method: 'POST',     
-        body : JSON.stringify(product),
+        body : JSON.stringify(form),
         headers : {
         'Content-Type': 'application/json'
         }
         });
         
-        const respuesta = await solicitud.json();
+        console.log(request)
+        const response = await request.json();
+        console.log(response)
 
-        if(solicitud.ok){
-            if(respuesta.length === 0){
-                alert('No se encontraron productos con ese nombre');
-                return;
-            }
-            setProductsList(respuesta);  
-            setProduct({
-                name: ''
-            })
+        if(request.ok){
+            alert(response.msg);
+
+            setOperationList([
+                ...operationsList,
+                form
+            ])
+
+            setForm({
+                concept: '',
+                amount: '',
+                date: '',
+                type: ''
+            });
+
+            document.getElementById('date').value = null
+            document.getElementById('op').value = null
         }else {
             alert('Hubo un error');
-        }*/
+        }
     }
 
     return (
@@ -80,8 +84,9 @@ export default function FormSubmit({operationsList, setOperationList}) {
                 <Form.Row className="my-1">
                     <Col sm={12} md={6}>
                         <Form.Control
-                        name="date"
-                        value={form.date}
+                        id="date"
+                        name="dateOperation"
+                        value={form.dateOperation}
                         type="date"
                         onChange={handleChange}
                         required
@@ -90,9 +95,10 @@ export default function FormSubmit({operationsList, setOperationList}) {
                     </Col>
                     <Col sm={12} md={6}>
                         <Form.Control
+                        id="op"
                         as="select"
-                        name="type"
-                        value={form.type}                    
+                        name="operation"
+                        value={form.operation}                    
                         onChange={handleChange}
                         required
                         placeholder="Tipo de operación"

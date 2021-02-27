@@ -1,7 +1,8 @@
 import React from 'react';
 import {Table} from 'react-bootstrap';
 
-export default function LastMovements() {
+export default function LastMovements({operationsList}) {
+    
     return (
         <>
             <p className="titles">Ultimos movimientos</p>

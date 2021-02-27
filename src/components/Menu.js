@@ -4,9 +4,7 @@ import '../App.css';
 import Abm from './Abm';
 import LastMovements from './LastMovements';
 
-export default function Menu() {
-
-    const [operationsList, setOperationList] = useState([]);
+export default function Menu({operationsList, setOperationList}) {
 
     return (
         <Tab.Container id="left-tabs-example" defaultActiveKey="1">
@@ -27,7 +25,7 @@ export default function Menu() {
                 <Col sm={9}>
                 <Tab.Content>
                     <Tab.Pane eventKey="1">
-                        <LastMovements />
+                        <LastMovements operationsList={operationsList}/>
                     </Tab.Pane>
                     <Tab.Pane eventKey="2">
                         <Abm operationsList={operationsList} setOperationList={setOperationList}/>

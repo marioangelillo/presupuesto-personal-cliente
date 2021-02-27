@@ -3,8 +3,27 @@ import {Table, Button} from 'react-bootstrap';
 
 export default function DataTable({operationsList, setOperationList}) {
 
-    const deleteOperation = (operation) =>{
-        console.log(operation)
+    const deleteOperation = async (operation) =>{;
+        let url = 'http://localhost:4000/api/delete/'+operation.id;
+        const request = await fetch(url,{   
+        method: 'DELETE',
+        headers : {
+        'Content-Type': 'application/json'
+        }
+        });
+
+        console.log(request);
+        const response = await request.json();
+        console.log(response);
+
+        if(request.ok){
+            alert('Ok');
+            setOperationList(
+                operationsList.filter(op => op.id !== operation.id)
+            )
+        }else{
+            alert('Hubo un error')
+        }
     }
 
     const updateOperation = (operation) =>{
@@ -27,9 +46,9 @@ export default function DataTable({operationsList, setOperationList}) {
                 {
                     operationsList.map(operation =>(
                         <tr>
-                        <td>{operation.date}</td>
+                        <td>{operation.dateOperation}</td>
                         <td>{operation.concept}</td>
-                        <td>{operation.type}</td>
+                        <td>{operation.operation}</td>
                         <td>{operation.amount}</td>
                         <td>
                             <Button variant="danger mr-1 btn-sm" onClick={() => deleteOperation(operation)}>Eliminar</Button>
@@ -37,30 +56,7 @@ export default function DataTable({operationsList, setOperationList}) {
                         </td>
                         </tr>
                     ))
-                }  
-                    <tr>
-                    <td>12/12/2020</td>
-                    <td>Compra de comida</td>
-                    <td>Alimentos</td>
-                    <td>$1100</td>
-                    <td>
-                        <Button variant="danger mr-1 btn-sm">Eliminar</Button>
-                        <Button variant="warning btn-sm">Modificar</Button>
-                    </td>
-                    </tr>
-                    <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto asdasd</td>
-                    <td>@mdo asdasdas</td>
-                    </tr>
-                    <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    </tr>
-                    
+                }                      
                 </tbody>
             </Table>
     )
