@@ -1,7 +1,7 @@
 import React from 'react';
 import {Table, Button} from 'react-bootstrap';
 
-export default function DataTable({operationsList, setOperationList}) {
+export default function DataTable({operationsList, setOperationList, modify, setModify, form, setForm}) {
 
     const deleteOperation = async (operation) =>{;
         let url = 'http://localhost:4000/api/delete/'+operation.id;
@@ -27,7 +27,8 @@ export default function DataTable({operationsList, setOperationList}) {
     }
 
     const updateOperation = (operation) =>{
-        console.log(operation)
+        setForm(operation);
+        setModify(true);
     }
     
     return (

@@ -1,14 +1,7 @@
 import React, {useState} from 'react';
 import { Form, Col, Button } from 'react-bootstrap';
 
-export default function FormSubmit({operationsList, setOperationList}) {
-
-    const [form, setForm] = useState({
-        concept: '',
-        amount: '',
-        dateOperation: '',
-        operation: ''
-    })
+export default function FormSubmit({operationsList, setOperationList, modify, setModify, form, setForm}) {  
 
     const handleChange = e =>{
         setForm({
@@ -18,44 +11,83 @@ export default function FormSubmit({operationsList, setOperationList}) {
     }
 
     const handleSubmit = async e =>{
-        e.preventDefault();
+        e.preventDefault();        
         if(form.concept === '' || form.amount === '' || form.date === '' || form.type === ''){
             alert('Deben completarse todos los campos');
             return;
         }        
 
-        const request = await fetch('http://localhost:4000/api/insert',{   
-        method: 'POST',     
-        body : JSON.stringify(form),
-        headers : {
-        'Content-Type': 'application/json'
-        }
-        });
+        if(!modify){
+            const request = await fetch('http://localhost:4000/api/insert',{   
+                method: 'POST',     
+                body : JSON.stringify(form),
+                headers : {
+                'Content-Type': 'application/json'
+                }
+                });
+                
+                console.log(request)
+                const response = await request.json();
+                console.log(response)
         
-        console.log(request)
-        const response = await request.json();
-        console.log(response)
+                if(request.ok){
+                    alert(response.msg);
+        
+                    setOperationList([
+                        ...operationsList,
+                        form
+                    ])
+        
+                    setForm({
+                        concept: '',
+                        amount: '',
+                        date: '',
+                        type: ''
+                    });
+        
+                    document.getElementById('date').value = null
+                    document.getElementById('op').value = null
+                }else {
+                    alert('Hubo un error');
+                }
+        }else{
+            console.log(form);
+            const request = await fetch('http://localhost:4000/api/update',{   
+                method: 'PUT',     
+                body : JSON.stringify(form),
+                headers : {
+                'Content-Type': 'application/json'
+                }
+                });
+                
+                console.log(request)
+                const response = await request.json();
+                console.log(response)
+        
+                if(request.ok){
+                    alert(response.msg); 
 
-        if(request.ok){
-            alert(response.msg);
+                    setOperationList([
+                        ...operationsList.filter(op => op.id !== form.id),
+                        form
+                    ])
+                    
 
-            setOperationList([
-                ...operationsList,
-                form
-            ])
-
-            setForm({
-                concept: '',
-                amount: '',
-                date: '',
-                type: ''
-            });
-
-            document.getElementById('date').value = null
-            document.getElementById('op').value = null
-        }else {
-            alert('Hubo un error');
+                    setForm({
+                        concept: '',
+                        amount: '',
+                        date: '',
+                        type: ''
+                    });
+        
+                    document.getElementById('date').value = null;
+                    document.getElementById('op').value = null;
+                    setModify(false);
+                }else {
+                    alert('Hubo un error');
+                }
         }
+        
     }
 
     return (
@@ -94,21 +126,39 @@ export default function FormSubmit({operationsList, setOperationList}) {
                         />
                     </Col>
                     <Col sm={12} md={6}>
-                        <Form.Control
-                        id="op"
-                        as="select"
-                        name="operation"
-                        value={form.operation}                    
-                        onChange={handleChange}
-                        required
-                        placeholder="Tipo de operación"
-                        >
+                        {
+                            modify ?
+                            <Form.Control
+                            id="op"
+                            as="select"
+                            name="operation"                        
+                            value={form.operation}
+                            required
+                            placeholder="Tipo de operación"
+                            disabled
+                            >
                             <option>Ingreso</option>
                             <option>Egreso</option>
-                        </Form.Control>
+                            </Form.Control>                            
+                            :
+                            <Form.Control
+                            id="op"
+                            as="select"
+                            name="operation"                        
+                            value={form.operation}                    
+                            onChange={handleChange}
+                            required
+                            placeholder="Tipo de operación"
+                            >
+                            <option>Ingreso</option>
+                            <option>Egreso</option>
+                            </Form.Control> 
+                        }
+                        
+                            
                     </Col> 
                 </Form.Row>
-                <Button variant="primary" type="submit">AGREGAR</Button>
+                <Button variant="primary" type="submit">{modify ? 'Modificar' : 'Agregar' }</Button>
             </Form>
     )
 }
