@@ -1,9 +1,22 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Table} from 'react-bootstrap';
 
 export default function LastMovements({operationsList}) {
     
-    return (
+    const [lastMov, setLastMov] = useState([]);
+
+        useEffect(() => {
+            let control = 1;
+            for (let i = 0; i < operationsList.length; i++) {
+                if(operationsList[i].id > control){
+                    setLastMov([...lastMov, operationsList[i]]);
+                    control = operationsList[i].id;
+                }                
+            }
+            console.log(lastMov)
+        }, [])
+
+    return (   
         <>
             <p className="titles">Ultimos movimientos</p>
             <hr/>

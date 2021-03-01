@@ -40,13 +40,11 @@ export default function FormSubmit({operationsList, setOperationList, modify, se
         
                     setForm({
                         concept: '',
-                        amount: '',
-                        date: '',
-                        type: ''
+                        amount: '',                        
                     });
         
-                    document.getElementById('date').value = null
-                    document.getElementById('op').value = null
+                    document.getElementById('date').value = ""
+                    document.getElementById('op').value = "";
                 }else {
                     alert('Hubo un error');
                 }
